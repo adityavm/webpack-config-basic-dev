@@ -1,10 +1,18 @@
 const
   webpack = require("webpack"),
   path = require("path"),
-  HtmlWebpackPlugin = require("html-webpack-plugin");
+  HtmlWebpackPlugin = require("html-webpack-plugin"),
+  glob = require("glob"),
+  fs = require("fs");
 
 const
   merge = require("webpack-merge");
+
+const haveEslintConfig = dir => {
+  const matchesDefault = glob.sync(`${dir}/.eslint*`);
+  const matchesPackage = require(`${dir}/package.json`).eslintConfig;
+  return matchesDefault.length > 0 || matchesPackage;
+}
 
 module.exports = dirname => {
   const
@@ -13,6 +21,18 @@ module.exports = dirname => {
 
   const
     webpackBase = require("./webpack.base.config")(dirname);
+
+  const loaders = [];
+
+  // only run eslint if there's a config
+  if (haveEslintConfig(dirname)) {
+    loaders.push({
+      enforce: "pre",
+      test: /\.js$/,
+      include: srcDir,
+      loader: "eslint-loader",
+    });
+  }
 
   return merge({
     customizeArray(a, b, key) {
@@ -38,14 +58,8 @@ module.exports = dirname => {
           include: srcDir,
           loader: "babel-loader",
         }, // js
-        {
-          enforce: "pre",
-          test: /\.js$/,
-          include: srcDir,
-          loader: "eslint-loader",
-        },
-        // { test: /\.s[ac]ss$/, include: srcDir, loaders: ["style-loader", "css-loader", "sass-loader"] }, // styles
-      ],
+        ...loaders,
+      ]
     },
     devServer: {
       host: "localhost",

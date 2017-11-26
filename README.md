@@ -1,13 +1,16 @@
 # webpack-config-basic-dev
 
-Basic Webpack config with React, ESLint and HMR support.
+Basic Webpack config with React, HMR and optional ESLint support.
 
 ## Usage
 
 ```shell
-npm i webpack webpack-dev-server eslint eslint-loader react react-dom react-hot-loader babel-core babel-loader # dependencies
+npm i webpack webpack-dev-server react react-dom react-hot-loader babel-core babel-loader babel-preset-env babel-preset-react # dependencies
 npm i webpack-config-basic-dev
 ```
+**Note:** You will need the first line of dependencies to ultimately build successfully, but they are not required by this module and are listed here for convenience.
+
+For ESLint, check the [wiki][1].
 
 Create a `webpack.config.js` in your app directory's root, and add the following lines:
 
@@ -35,12 +38,16 @@ The module assumes your app folder follows the following structure:
 
 ```
 AppRoot
-  + src   // all source
-  + dist  // build folder
+  + src         // all source
+    - index.js  // entry
+  + dist        // build folder
   - package.json
   - ...
 ```
 
 # License
 
-Slightly modified MIT. Refer to the [License](LICENSE.md).
+Slightly modified MIT. Refer to the [License][2].
+
+[1]: https://github.com/adityavm/webpack-config-basic-dev/wiki/Additional-Notes#eslint-configuration
+[2]: https://github.com/adityavm/webpack-config-basic-dev/blob/master/LICENSE.md
