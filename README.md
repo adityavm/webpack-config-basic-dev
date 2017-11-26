@@ -5,6 +5,7 @@ Basic Webpack config with React, ESLint and HMR support.
 ## Usage
 
 ```shell
+npm i webpack webpack-dev-server eslint eslint-loader react react-dom react-hot-loader babel-core babel-loader # dependencies
 npm i webpack-config-basic-dev
 ```
 
