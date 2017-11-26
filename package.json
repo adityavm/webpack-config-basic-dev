@@ -1,0 +1,32 @@
+{
+  "name": "webpack-config-basic-dev",
+  "version": "1.0.0",
+  "description": "Basic Webpack config with React, ESLint and HMR support",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "webpack",
+    "webpack-config",
+    "react"
+  ],
+  "author": "Aditya Mukherjee <aditya@adityamukherjee.com>",
+  "license": "MIT",
+  "dependencies": {
+    "clean-webpack-plugin": "^0.1.17",
+    "eslint-loader": "^1.9.0",
+    "html-webpack-plugin": "^2.30.1",
+    "webpack": "^3.8.1",
+    "webpack-merge": "^4.1.1"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/adityavm/webpack-config-basic-dev.git"
+  },
+  "bugs": {
+    "url": "https://github.com/adityavm/webpack-config-basic-dev/issues"
+  },
+  "homepage": "https://github.com/adityavm/webpack-config-basic-dev#readme"
+}
