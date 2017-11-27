@@ -47,7 +47,7 @@ AppRoot
 
 # License
 
-Slightly modified MIT. Refer to the [License][2].
+[MIT][2].
 
 [1]: https://github.com/adityavm/webpack-config-basic-dev/wiki/Additional-Notes#eslint-configuration
 [2]: https://github.com/adityavm/webpack-config-basic-dev/blob/master/LICENSE
