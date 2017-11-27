@@ -1,6 +1,6 @@
 # webpack-config-basic-dev
 
-Basic Webpack config with React, HMR and optional ESLint support.
+Basic Webpack config with React, SASS, HMR and optional ESLint support.
 
 ## Usage
 
