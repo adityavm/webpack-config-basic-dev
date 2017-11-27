@@ -1,7 +1,8 @@
 const
   webpack = require("webpack"),
   path = require("path"),
-  HtmlWebpackPlugin = require("html-webpack-plugin");
+  HtmlWebpackPlugin = require("html-webpack-plugin"),
+  ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = dirname => {
   const
@@ -18,8 +19,25 @@ module.exports = dirname => {
       publicPath: "/",
     },
     resolve: {
-      extensions: [".js", ".scss", ".sass"],
+      extensions: [".js", ".css", ".scss", ".sass"],
       modules: [srcDir, "node_modules"],
+    },
+    plugins: [
+      new ExtractTextPlugin({
+        filename: `bundle.css`,
+        allChunks: true,
+      }),
+    ],
+    module: {
+      loaders: [{
+        test: /\.css$/,
+        include: srcDir,
+        loaders: ExtractTextPlugin.extract(["css-loader"]), // styles
+      }, {
+        test: /\.s[ac]ss$/,
+        include: srcDir,
+        loaders: ExtractTextPlugin.extract(["css-loader", "sass-loader"]), // styles
+      }]
     },
   };
 }

@@ -40,7 +40,6 @@ module.exports = dirname => {
             compact: true,
           },
         }, // js
-        // { test: /\.s[ac]ss$/, include: srcDir, loaders: ["style-loader", "css-loader", "sass-loader"] }, // styles
       ],
     },
   });
