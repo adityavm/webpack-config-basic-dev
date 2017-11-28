@@ -2,6 +2,7 @@ const
   webpack = require("webpack"),
   path = require("path"),
   HtmlWebpackPlugin = require("html-webpack-plugin"),
+  ExtractTextPlugin = require("extract-text-webpack-plugin"),
   glob = require("glob"),
   fs = require("fs");
 
@@ -58,6 +59,11 @@ module.exports = dirname => {
           include: srcDir,
           loader: "babel-loader",
         }, // js
+        {
+          test: /\.(s[ac]ss|css)$/,
+          include: srcDir,
+          loaders: ["css-hot-loader"].concat(ExtractTextPlugin.extract(["css-loader", "sass-loader"])),
+        }, // hmr styles
         ...loaders,
       ]
     },

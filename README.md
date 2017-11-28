@@ -5,7 +5,7 @@ Basic Webpack config with React, SASS, HMR and optional ESLint support.
 ## Usage
 
 ```shell
-npm i webpack webpack-dev-server react react-dom react-hot-loader babel-core babel-loader css-loader sass-loader node-sass # dependencies
+npm i webpack webpack-dev-server react react-dom react-hot-loader babel-core babel-loader css-loader css-hot-loader sass-loader node-sass # dependencies
 npm i webpack-config-basic-dev
 ```
 **Note:** You will need the first line of dependencies to ultimately build successfully, but they are not required by this module and are listed here for convenience.

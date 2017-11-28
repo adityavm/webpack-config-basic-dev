@@ -2,6 +2,7 @@ const
   webpack = require("webpack"),
   path = require("path"),
   HtmlWebpackPlugin = require("html-webpack-plugin"),
+  ExtractTextPlugin = require("extract-text-webpack-plugin"),
   CleanWebpackPlugin = require("clean-webpack-plugin");
 
 const
@@ -40,6 +41,11 @@ module.exports = dirname => {
             compact: true,
           },
         }, // js
+        {
+          test: /\.(s[ac]ss|css)$/,
+          include: srcDir,
+          loaders: ExtractTextPlugin.extract(["css-loader", "sass-loader"]),
+        }, // css / sass
       ],
     },
   });

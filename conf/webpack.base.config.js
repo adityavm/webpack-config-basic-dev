@@ -28,16 +28,5 @@ module.exports = dirname => {
         allChunks: true,
       }),
     ],
-    module: {
-      loaders: [{
-        test: /\.css$/,
-        include: srcDir,
-        loaders: ExtractTextPlugin.extract(["css-loader"]), // styles
-      }, {
-        test: /\.s[ac]ss$/,
-        include: srcDir,
-        loaders: ExtractTextPlugin.extract(["css-loader", "sass-loader"]), // styles
-      }]
-    },
   };
 }
