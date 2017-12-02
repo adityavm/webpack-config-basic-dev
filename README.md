@@ -1,6 +1,6 @@
 # webpack-config-basic-dev
 
-Basic Webpack config with React, SASS, HMR and optional ESLint support.
+Basic Webpack config with React, SASS, HMR and optional ESLint and Stylelint support.
 
 ## Usage
 
@@ -10,7 +10,7 @@ npm i webpack-config-basic-dev
 ```
 **Note:** You will need the first line of dependencies to ultimately build successfully, but they are not required by this module and are listed here for convenience.
 
-For ESLint, check the [wiki][1].
+For ESLint and Stylelint, check the [wiki][1].
 
 Create a `webpack.config.js` in your app directory's root, and add the following lines:
 

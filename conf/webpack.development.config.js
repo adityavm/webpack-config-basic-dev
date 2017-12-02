@@ -48,6 +48,9 @@ module.exports = dirname => {
 
   // only run stylelint if there's a config
   if (haveStylelintConfig(dirname)) {
+    if (process.env.JEST_ENV) {
+      console.log("STYLELINTWEBPACKPLUGIN");
+    }
     plugins.push(new StylelintWebpackPlugin({ syntax: "scss" }));
   }
 

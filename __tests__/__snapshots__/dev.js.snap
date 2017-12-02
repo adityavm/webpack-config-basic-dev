@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should have devserver config in development env 1`] = `
+Object {
+  "clientLogLevel": "error",
+  "compress": true,
+  "host": "localhost",
+  "hot": true,
+  "inline": true,
+  "noInfo": true,
+  "overlay": Object {
+    "errors": true,
+    "warnings": true,
+  },
+  "port": 8008,
+}
+`;
