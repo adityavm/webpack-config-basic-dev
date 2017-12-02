@@ -3,6 +3,7 @@ const
   path = require("path"),
   HtmlWebpackPlugin = require("html-webpack-plugin"),
   ExtractTextPlugin = require("extract-text-webpack-plugin"),
+  StylelintWebpackPlugin = require("stylelint-webpack-plugin"),
   glob = require("glob"),
   fs = require("fs");
 
@@ -10,8 +11,16 @@ const
   merge = require("webpack-merge");
 
 const haveEslintConfig = dir => {
-  const matchesDefault = glob.sync(`${dir}/.eslint*`);
-  const matchesPackage = require(`${dir}/package.json`).eslintConfig;
+  const
+    matchesDefault = glob.sync(`${dir}/.eslint*`),
+    matchesPackage = require(`${dir}/package.json`).eslintConfig;
+  return matchesDefault.length > 0 || matchesPackage;
+}
+
+const haveStylelintConfig = dir => {
+  const
+    matchesDefault = glob.sync(`${dir}/.stylelint*`),
+    matchesPackage = require(`${dir}/package.json`).stylelint;
   return matchesDefault.length > 0 || matchesPackage;
 }
 
@@ -23,7 +32,9 @@ module.exports = dirname => {
   const
     webpackBase = require("./webpack.base.config")(dirname);
 
-  const loaders = [];
+  const
+    loaders = [],
+    plugins = [];
 
   // only run eslint if there's a config
   if (haveEslintConfig(dirname)) {
@@ -33,6 +44,11 @@ module.exports = dirname => {
       include: srcDir,
       loader: "eslint-loader",
     });
+  }
+
+  // only run stylelint if there's a config
+  if (haveStylelintConfig(dirname)) {
+    plugins.push(new StylelintWebpackPlugin({ syntax: "scss" }));
   }
 
   return merge({
@@ -51,6 +67,7 @@ module.exports = dirname => {
       new webpack.NamedModulesPlugin(),
       new webpack.HotModuleReplacementPlugin(),
       new HtmlWebpackPlugin(),
+      ...plugins,
     ],
     module: {
       loaders: [
