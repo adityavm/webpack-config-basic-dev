@@ -2,6 +2,9 @@
 
 Basic Webpack config with React, SASS, HMR and optional ESLint and Stylelint support.
 
+[![Build Status](https://img.shields.io/travis/adityavm/webpack-config-basic-dev/master.svg?style=flat-square)](https://travis-ci.org/adityavm/webpack-config-basic-dev)
+
+
 ## Usage
 
 ```shell
@@ -49,5 +52,5 @@ AppRoot
 
 [MIT][2].
 
-[1]: https://github.com/adityavm/webpack-config-basic-dev/wiki/Additional-Notes#eslint-configuration
+[1]: https://github.com/adityavm/webpack-config-basic-dev/wiki/Additional-Notes
 [2]: https://github.com/adityavm/webpack-config-basic-dev/blob/master/LICENSE
