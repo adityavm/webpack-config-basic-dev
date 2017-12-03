@@ -18,7 +18,7 @@ For ESLint and Stylelint, check the [wiki][1].
 Create a `webpack.config.js` in your app directory's root, and add the following lines:
 
 ```javascript
-const config = require("webpack-config-basic-dev")(__dirname);
+const config = require("webpack-config-basic-dev")(__dirname, process.env.NODE_ENV);
 module.exports = config;
 ```
 
