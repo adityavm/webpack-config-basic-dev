@@ -1,5 +1,5 @@
-module.exports = dirname => {
-  const env = process.env.NODE_ENV || "development";
+module.exports = (dirname, environment)  => {
+  const env = environment || "development";
 
   if (!["development", "production"].includes(env)) throw new Error(`Environment should be one of: development, production. Got ${env}`);
 

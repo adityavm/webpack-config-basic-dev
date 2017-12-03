@@ -2,12 +2,10 @@ const path = require("path");
 
 beforeEach(() => {
   process.env.JEST_ENV = true;
-  process.env.NODE_ENV = "production"
 });
 
 afterEach(() => {
   jest.resetModules();
-  process.env.NODE_ENV = null;
 });
 
 it("should fail if no environment provided", () => {
@@ -18,7 +16,7 @@ it("should fail if no environment provided", () => {
 it("should have HRM and entry files in production env", () => {
   const config = require("../");
   const dir = path.resolve(__dirname, "dirWithPkgJson");
-  const prodConfig = config(dir, process.env.NODE_ENV);
+  const prodConfig = config(dir, "production");
 
   expect(prodConfig.entry).toEqual([
     `${dir}/src/index.js`
@@ -30,7 +28,7 @@ it("should have only html webpack and HMR plugins in production env", () => {
 
   const config = require("../");
   const dir = path.resolve(__dirname, "dirWithPkgJson");
-  const prodConfig = config(dir, process.env.NODE_ENV);
+  const prodConfig = config(dir, "production");
   const webpack = require("webpack");
   const HtmlWebpackPlugin = require("html-webpack-plugin");
   const CleanWebpackPlugin = require("clean-webpack-plugin");
@@ -53,7 +51,7 @@ it("should not have stylelint plugin in production env", () => {
 
   const config = require("../");
   const dir = path.resolve(__dirname, "dirWithStylelint");
-  const prodConfig = config(dir, process.env.NODE_ENV);
+  const prodConfig = config(dir, "production");
 
   expect(console.log).not.toHaveBeenCalledWith("STYLELINTWEBPACKPLUGIN");
 
@@ -63,7 +61,7 @@ it("should not have stylelint plugin in production env", () => {
 it("should have correct loaders in production env", () => {
   const config = require("../");
   const dir = path.resolve(__dirname, "dirWithPkgJson");
-  const prodConfig = config(dir, process.env.NODE_ENV);
+  const prodConfig = config(dir, "production");
   const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
   expect(prodConfig.module.loaders).toContainEqual({
@@ -91,7 +89,7 @@ it("should have correct loaders in production env", () => {
 it("should not have eslint-loader in production env", () => {
   const config = require("../");
   const dir = path.resolve(__dirname, "dirWithEslint");
-  const prodConfig = config(dir, process.env.NODE_ENV);
+  const prodConfig = config(dir, "production");
 
   expect(prodConfig.module.loaders).not.toContainEqual({
     enforce: "pre",
@@ -104,7 +102,7 @@ it("should not have eslint-loader in production env", () => {
 it("should not have devserver config production env", () => {
   const config = require("../");
   const dir = path.resolve(__dirname, "dirWithEslint");
-  const prodConfig = config(dir, process.env.NODE_ENV);
+  const prodConfig = config(dir, "production");
 
   expect(prodConfig.devServer).toBeFalsy();
 });

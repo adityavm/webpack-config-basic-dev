@@ -2,12 +2,10 @@ const path = require("path");
 
 beforeEach(() => {
   process.env.JEST_ENV = true;
-  process.env.NODE_ENV = "development"
 });
 
 afterEach(() => {
   jest.resetModules();
-  process.env.NODE_ENV = null;
 });
 
 it("should fail if no environment provided", () => {
@@ -18,7 +16,7 @@ it("should fail if no environment provided", () => {
 it("should have HRM and entry files in development env", () => {
   const config = require("../");
   const dir = path.resolve(__dirname, "dirWithPkgJson");
-  const devConfig = config(dir, process.env.NODE_ENV);
+  const devConfig = config(dir, "development");
 
   expect(devConfig.entry).toEqual([
     `react-hot-loader/patch`,
@@ -32,7 +30,7 @@ it("should have only html webpack and HMR plugins in development env", () => {
 
   const config = require("../");
   const dir = path.resolve(__dirname, "dirWithPkgJson");
-  const devConfig = config(dir, process.env.NODE_ENV);
+  const devConfig = config(dir, "development");
   const webpack = require("webpack");
   const HtmlWebpackPlugin = require("html-webpack-plugin");
 
@@ -50,7 +48,7 @@ it("should have stylelint plugin in development env", () => {
 
   const config = require("../");
   const dir = path.resolve(__dirname, "dirWithStylelint");
-  const devConfig = config(dir, process.env.NODE_ENV);
+  const devConfig = config(dir, "development");
 
   expect(console.log).toHaveBeenCalledWith("STYLELINTWEBPACKPLUGIN");
 
@@ -60,7 +58,7 @@ it("should have stylelint plugin in development env", () => {
 it("should have correct loaders in development env", () => {
   const config = require("../");
   const dir = path.resolve(__dirname, "dirWithPkgJson");
-  const devConfig = config(dir, process.env.NODE_ENV);
+  const devConfig = config(dir, "development");
   const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
   expect(devConfig.module.loaders).toContainEqual({
@@ -85,7 +83,7 @@ it("should have correct loaders in development env", () => {
 it("should have eslint-loader in development env", () => {
   const config = require("../");
   const dir = path.resolve(__dirname, "dirWithEslint");
-  const devConfig = config(dir, process.env.NODE_ENV);
+  const devConfig = config(dir, "development");
 
   expect(devConfig.module.loaders).toContainEqual({
     enforce: "pre",
@@ -98,7 +96,7 @@ it("should have eslint-loader in development env", () => {
 it("should have devserver config in development env", () => {
   const config = require("../");
   const dir = path.resolve(__dirname, "dirWithEslint");
-  const devConfig = config(dir, process.env.NODE_ENV);
+  const devConfig = config(dir, "development");
 
   expect(devConfig.devServer).toBeTruthy();
 
