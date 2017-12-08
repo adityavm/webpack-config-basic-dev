@@ -22,6 +22,7 @@ module.exports = dirname => {
       extensions: [".js", ".css", ".scss", ".sass"],
       modules: [srcDir, "node_modules"],
     },
+    devtool: "cheap-module-source-map",
     plugins: [
       new ExtractTextPlugin({
         filename: `bundle.css`,

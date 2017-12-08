@@ -4,7 +4,8 @@
   "description": "Basic Webpack config with React, ESLint and HMR support",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "prepublishOnly": "git push origin $(git_current_branch)"
   },
   "keywords": [
     "webpack",
