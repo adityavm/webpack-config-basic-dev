@@ -4,6 +4,7 @@ exports[`should have devserver config in development env 1`] = `
 Object {
   "clientLogLevel": "error",
   "compress": true,
+  "historyApiFallback": true,
   "host": "localhost",
   "hot": true,
   "inline": true,
