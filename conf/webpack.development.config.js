@@ -100,6 +100,7 @@ module.exports = dirname => {
         warnings: true,
         errors: true,
       },
+      historyApiFallback: true,
     },
   });
 };
