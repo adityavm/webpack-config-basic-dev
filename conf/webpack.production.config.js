@@ -29,6 +29,7 @@ module.exports = dirname => {
           warnings: false,
           comparisons: false,
         },
+        parallel: true,
       }),
     ],
     module: {
