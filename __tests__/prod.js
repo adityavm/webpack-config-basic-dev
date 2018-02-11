@@ -13,14 +13,15 @@ it("should fail if no environment provided", () => {
   expect(() => config()).toThrow();
 });
 
-it("should have HRM and entry files in production env", () => {
+it("should have HMR and entry files in production env", () => {
   const config = require("../");
   const dir = path.resolve(__dirname, "dirWithPkgJson");
   const prodConfig = config(dir, "production");
 
-  expect(prodConfig.entry).toEqual([
+  expect(prodConfig.entry.app).toEqual([
     `${dir}/src/index.js`
   ]);
+  expect(prodConfig.entry.vendor).toEqual(["react", "react-dom", "react-redux", "redux", "classnames"]);
 });
 
 it("should have only html webpack and HMR plugins in production env", () => {
@@ -38,6 +39,7 @@ it("should have only html webpack and HMR plugins in production env", () => {
   expect(prodConfig.plugins).toContainEqual(expect.any(CleanWebpackPlugin));
   expect(prodConfig.plugins).toContainEqual(expect.any(webpack.optimize.UglifyJsPlugin));
   expect(prodConfig.plugins).toContainEqual(expect.any(webpack.DefinePlugin));
+  expect(prodConfig.plugins).toContainEqual(expect.any(webpack.optimize.CommonsChunkPlugin));
   expect(prodConfig.plugins).not.toContainEqual(expect.any(webpack.NamedModulesPlugin));
   expect(prodConfig.plugins).not.toContainEqual(expect.any(webpack.HotModuleReplacementPlugin));
   expect(console.log).not.toHaveBeenCalledWith("STYLELINTWEBPACKPLUGIN");

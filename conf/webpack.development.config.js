@@ -56,16 +56,18 @@ module.exports = dirname => {
 
   return merge({
     customizeArray(a, b, key) {
-      return key === "entry"
+      return key === "entry.app"
         ? b
         : undefined;
     },
   })(webpackBase, {
-    entry: [
-      "react-hot-loader/patch",
-      "webpack-dev-server/client?http://localhost:8008",
-      `${srcDir}/index.js`,
-    ],
+    entry: {
+      app: [
+        "react-hot-loader/patch",
+        "webpack-dev-server/client?http://localhost:8008",
+        `${srcDir}/index.js`,
+      ],
+    },
     plugins: [
       new webpack.NamedModulesPlugin(),
       new webpack.HotModuleReplacementPlugin(),

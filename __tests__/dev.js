@@ -13,16 +13,17 @@ it("should fail if no environment provided", () => {
   expect(() => config()).toThrow();
 });
 
-it("should have HRM and entry files in development env", () => {
+it("should have HMR and entry files in development env", () => {
   const config = require("../");
   const dir = path.resolve(__dirname, "dirWithPkgJson");
   const devConfig = config(dir, "development");
 
-  expect(devConfig.entry).toEqual([
+  expect(devConfig.entry.app).toEqual([
     `react-hot-loader/patch`,
     `webpack-dev-server/client?http://localhost:8008`,
     `${dir}/src/index.js`
   ]);
+  expect(devConfig.entry.vendor).toEqual(["react", "react-dom", "react-redux", "redux", "classnames"]);
 });
 
 it("should have only html webpack and HMR plugins in development env", () => {
@@ -37,6 +38,7 @@ it("should have only html webpack and HMR plugins in development env", () => {
   expect(devConfig.plugins).toContainEqual(expect.any(HtmlWebpackPlugin));
   expect(devConfig.plugins).toContainEqual(expect.any(webpack.NamedModulesPlugin));
   expect(devConfig.plugins).toContainEqual(expect.any(webpack.HotModuleReplacementPlugin));
+  expect(devConfig.plugins).toContainEqual(expect.any(webpack.optimize.CommonsChunkPlugin));
   expect(console.log).not.toHaveBeenCalledWith("STYLELINTWEBPACKPLUGIN");
 
   global.console.log.mockRestore();
