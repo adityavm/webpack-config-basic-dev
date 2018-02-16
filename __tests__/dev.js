@@ -23,7 +23,7 @@ it("should have HMR and entry files in development env", () => {
     `webpack-dev-server/client?http://localhost:8008`,
     `${dir}/src/index.js`
   ]);
-  // expect(devConfig.entry.vendor).toEqual(["react", "react-dom", "react-redux", "redux", "classnames"]);
+  expect(devConfig.entry.vendor).toEqual(["react", "react-dom", "react-redux", "redux", "classnames"]);
 });
 
 it("should have only html webpack and HMR plugins in development env", () => {
@@ -38,7 +38,7 @@ it("should have only html webpack and HMR plugins in development env", () => {
   expect(devConfig.plugins).toContainEqual(expect.any(HtmlWebpackPlugin));
   expect(devConfig.plugins).toContainEqual(expect.any(webpack.NamedModulesPlugin));
   expect(devConfig.plugins).toContainEqual(expect.any(webpack.HotModuleReplacementPlugin));
-  // expect(devConfig.plugins).toContainEqual(expect.any(webpack.optimize.CommonsChunkPlugin));
+  expect(devConfig.plugins).toContainEqual(expect.any(webpack.optimize.CommonsChunkPlugin));
   expect(console.log).not.toHaveBeenCalledWith("STYLELINTWEBPACKPLUGIN");
 
   global.console.log.mockRestore();

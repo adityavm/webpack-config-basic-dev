@@ -24,10 +24,10 @@ module.exports = dirname => {
       new CleanWebpackPlugin(appDir, { root: dirname }),
       new HtmlWebpackPlugin(),
       new UglifyJsPlugin({
-        sourceMap: true,
         parallel: true,
         uglifyOptions: {
           comments: false,
+          inline: false,
         },
       }),
     ],

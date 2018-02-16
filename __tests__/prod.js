@@ -21,7 +21,7 @@ it("should have HMR and entry files in production env", () => {
   expect(prodConfig.entry.app).toEqual([
     `${dir}/src/index.js`
   ]);
-  // expect(prodConfig.entry.vendor).toEqual(["react", "react-dom", "react-redux", "redux", "classnames"]);
+  expect(prodConfig.entry.vendor).toEqual(["react", "react-dom", "react-redux", "redux", "classnames"]);
 });
 
 it("should have only html webpack and HMR plugins in production env", () => {
@@ -40,7 +40,7 @@ it("should have only html webpack and HMR plugins in production env", () => {
   expect(prodConfig.plugins).toContainEqual(expect.any(CleanWebpackPlugin));
   expect(prodConfig.plugins).toContainEqual(expect.any(UglifyJsWebpackPlugin));
   expect(prodConfig.plugins).toContainEqual(expect.any(webpack.DefinePlugin));
-  // expect(prodConfig.plugins).toContainEqual(expect.any(webpack.optimize.CommonsChunkPlugin));
+  expect(prodConfig.plugins).toContainEqual(expect.any(webpack.optimize.CommonsChunkPlugin));
   expect(prodConfig.plugins).not.toContainEqual(expect.any(webpack.NamedModulesPlugin));
   expect(prodConfig.plugins).not.toContainEqual(expect.any(webpack.HotModuleReplacementPlugin));
   expect(console.log).not.toHaveBeenCalledWith("STYLELINTWEBPACKPLUGIN");

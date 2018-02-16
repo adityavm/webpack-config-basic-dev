@@ -14,7 +14,7 @@ module.exports = dirname => {
       app: [
         `${srcDir}/index.js`,
       ],
-      // vendor: ["react", "react-dom", "react-redux", "redux", "classnames"],
+      vendor: ["react", "react-dom", "react-redux", "redux", "classnames"],
     },
     output: {
       path: appDir,
@@ -32,7 +32,7 @@ module.exports = dirname => {
         filename: `bundle.css`,
         allChunks: true,
       }),
-      // new webpack.optimize.CommonsChunkPlugin({ name: "vendor", filename: "vendor.bundle.js" }), // allow chunks
+      new webpack.optimize.CommonsChunkPlugin({ name: "vendor", filename: "vendor.bundle.js" }), // allow chunks
     ],
   };
 }
