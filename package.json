@@ -29,8 +29,7 @@
   },
   "peerDependencies": {
     "babel-loader": "^7.1.2",
-    "react-hot-loader": "^3.1.3",
-    "webpack-dev-server": "2.x"
+    "react-hot-loader": "^3.1.3"
   },
   "repository": {
     "type": "git",

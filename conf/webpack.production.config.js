@@ -27,8 +27,6 @@ module.exports = dirname => {
         parallel: true,
         uglifyOptions: {
           comments: false,
-          inline: false,
-          mangle: false,
         },
       }),
     ],
