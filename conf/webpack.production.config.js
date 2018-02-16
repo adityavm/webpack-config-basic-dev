@@ -20,7 +20,7 @@ module.exports = dirname => {
       new webpack.DefinePlugin({
         "process.env.NODE_ENV": JSON.stringify("production"),
       }),
-      new CleanWebpackPlugin(appDir),
+      new CleanWebpackPlugin(appDir, { root: dirname }),
       new HtmlWebpackPlugin(),
       new webpack.optimize.UglifyJsPlugin({
         sourcemap: true,
@@ -30,6 +30,7 @@ module.exports = dirname => {
           comparisons: false,
         },
         parallel: true,
+        mangle: false,
       }),
     ],
     module: {
@@ -37,6 +38,7 @@ module.exports = dirname => {
         {
           test: /\.js$/,
           include: srcDir,
+          exclude: [path.resolve(dirname, "node_modules")],
           loader: "babel-loader",
           options: {
             compact: true,

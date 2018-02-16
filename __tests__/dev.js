@@ -66,6 +66,7 @@ it("should have correct loaders in development env", () => {
   expect(devConfig.module.loaders).toContainEqual({
     test: /\.js$/,
     include: `${dir}/src`,
+    exclude: [`${dir}/node_modules`],
     loader: "babel-loader",
   });
   expect(devConfig.module.loaders).toContainEqual({

@@ -69,6 +69,7 @@ it("should have correct loaders in production env", () => {
   expect(prodConfig.module.loaders).toContainEqual({
     test: /\.js$/,
     include: `${dir}/src`,
+    exclude: [`${dir}/node_modules`],
     loader: "babel-loader",
     options: {
       compact: true,

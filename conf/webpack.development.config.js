@@ -79,6 +79,7 @@ module.exports = dirname => {
         {
           test: /\.js$/,
           include: srcDir,
+          exclude: [path.resolve(dirname, "node_modules")],
           loader: "babel-loader",
         }, // js
         {
