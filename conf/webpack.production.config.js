@@ -4,6 +4,7 @@ const
   HtmlWebpackPlugin = require("html-webpack-plugin"),
   ExtractTextPlugin = require("extract-text-webpack-plugin"),
   CleanWebpackPlugin = require("clean-webpack-plugin");
+  UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 const
   merge = require("webpack-merge");
@@ -22,15 +23,12 @@ module.exports = dirname => {
       }),
       new CleanWebpackPlugin(appDir, { root: dirname }),
       new HtmlWebpackPlugin(),
-      new webpack.optimize.UglifyJsPlugin({
-        sourcemap: true,
-        comments: false,
-        compress: {
-          warnings: false,
-          comparisons: false,
-        },
+      new UglifyJsPlugin({
+        sourceMap: true,
         parallel: true,
-        mangle: false,
+        uglifyOptions: {
+          comments: false,
+        },
       }),
     ],
     module: {
