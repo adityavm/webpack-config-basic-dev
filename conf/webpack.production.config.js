@@ -28,6 +28,7 @@ module.exports = dirname => {
         uglifyOptions: {
           comments: false,
           inline: false,
+          mangle: false,
         },
       }),
     ],
