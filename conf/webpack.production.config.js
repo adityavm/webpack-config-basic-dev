@@ -21,7 +21,7 @@ module.exports = dirname => {
       new webpack.DefinePlugin({
         "process.env.NODE_ENV": JSON.stringify("production"),
       }),
-      new CleanWebpackPlugin(appDir, { root: dirname }),
+      new CleanWebpackPlugin(appDir, { root: dirname, verbose: false }),
       new HtmlWebpackPlugin(),
       new UglifyJsPlugin({
         parallel: true,
