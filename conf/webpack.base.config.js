@@ -18,8 +18,8 @@ module.exports = dirname => {
     },
     output: {
       path: appDir,
-      filename: "[name].bundle.js",
-      chunkFilename: "[name].bundle.js",
+      filename: "js/[name].bundle.js",
+      chunkFilename: "js/[name].bundle.js",
       publicPath: "/",
     },
     resolve: {
@@ -29,10 +29,10 @@ module.exports = dirname => {
     devtool: "cheap-module-source-map",
     plugins: [
       new ExtractTextPlugin({
-        filename: `bundle.css`,
+        filename: `css/bundle.css`,
         allChunks: true,
       }),
-      new webpack.optimize.CommonsChunkPlugin({ name: "vendor", filename: "vendor.bundle.js" }), // allow chunks
+      new webpack.optimize.CommonsChunkPlugin({ name: "vendor", filename: "js/vendor.bundle.js" }), // allow chunks
     ],
   };
 }
