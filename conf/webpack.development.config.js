@@ -24,7 +24,7 @@ const haveStylelintConfig = dir => {
   return matchesDefault.length > 0 || matchesPackage;
 }
 
-module.exports = dirname => {
+module.exports = (dirname, overrides = {}) => {
   const
     srcDir = path.resolve(dirname, "src"),
     appDir = path.resolve(dirname, "dist");
@@ -69,9 +69,9 @@ module.exports = dirname => {
       ],
     },
     plugins: [
-      new webpack.NamedModulesPlugin(),
-      new webpack.HotModuleReplacementPlugin(),
-      new HtmlWebpackPlugin(),
+      new webpack.NamedModulesPlugin({ ...overrides.NamedModulesPlugin }),
+      new webpack.HotModuleReplacementPlugin({ title: "", ...overrides.HotModuleReplacementPlugin }),
+      new HtmlWebpackPlugin({ ...overrides.HtmlWebpackPlugin }),
       ...plugins,
     ],
     module: {

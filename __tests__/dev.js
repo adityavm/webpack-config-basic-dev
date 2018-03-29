@@ -109,3 +109,18 @@ it("should have devserver config in development env", () => {
 
   expect(devConfig.devServer).toMatchSnapshot();
 });
+
+it("should allow overriding config for plugins", () => {
+  const config = require("../");
+  const dir = path.resolve(__dirname, "dirWithEslint");
+  const devConfig = config(dir, "development", {
+    NamedModulesPlugin: {
+      setting: "wxyz",
+    }
+  });
+
+  const webpack = require("webpack");
+
+  const plugin = devConfig.plugins.find(plugin => plugin.constructor === webpack.NamedModulesPlugin);
+  expect(plugin.options.setting).toBe("wxyz");
+});

@@ -9,7 +9,7 @@ const
 const
   merge = require("webpack-merge");
 
-module.exports = dirname => {
+module.exports = (dirname, overrides = {}) => {
 
   const
     srcDir = path.resolve(dirname, "src"),
@@ -20,14 +20,16 @@ module.exports = dirname => {
     plugins: [
       new webpack.DefinePlugin({
         "process.env.NODE_ENV": JSON.stringify("production"),
+        ...overrides.DefinePlugin,
       }),
-      new CleanWebpackPlugin(appDir, { root: dirname, verbose: false }),
-      new HtmlWebpackPlugin(),
+      new CleanWebpackPlugin(appDir, { root: dirname, verbose: false, ...overrides.CleanWebpackPlugin }),
+      new HtmlWebpackPlugin({ title: "", ...overrides.HtmlWebpackPlugin }),
       new UglifyJsPlugin({
         parallel: true,
         uglifyOptions: {
           comments: false,
         },
+        ...overrides.UglifyJsPlugin,
       }),
     ],
     module: {

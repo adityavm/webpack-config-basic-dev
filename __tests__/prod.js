@@ -110,3 +110,18 @@ it("should not have devserver config production env", () => {
 
   expect(prodConfig.devServer).toBeFalsy();
 });
+
+it("should allow overriding config for plugins", () => {
+  const config = require("../");
+  const dir = path.resolve(__dirname, "dirWithEslint");
+  const prodConfig = config(dir, "production", {
+    HtmlWebpackPlugin: {
+      title: "abcd",
+    }
+  });
+
+  const HtmlWebpackPlugin = require("html-webpack-plugin");
+
+  const plugin = prodConfig.plugins.find(plugin => plugin.constructor === HtmlWebpackPlugin);
+  expect(plugin.options.title).toBe("abcd");
+});
