@@ -4,7 +4,8 @@ const
   HtmlWebpackPlugin = require("html-webpack-plugin"),
   ExtractTextPlugin = require("extract-text-webpack-plugin"),
   CleanWebpackPlugin = require("clean-webpack-plugin");
-  UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+  UglifyJsPlugin = require("uglifyjs-webpack-plugin"),
+  assign = require("lodash.assign");
 
 const
   merge = require("webpack-merge");
@@ -18,19 +19,21 @@ module.exports = (dirname, overrides = {}) => {
 
   return merge(webpackBase, {
     plugins: [
-      new webpack.DefinePlugin({
-        "process.env.NODE_ENV": JSON.stringify("production"),
-        ...overrides.DefinePlugin,
-      }),
-      new CleanWebpackPlugin(appDir, { root: dirname, verbose: false, ...overrides.CleanWebpackPlugin }),
-      new HtmlWebpackPlugin({ title: "", ...overrides.HtmlWebpackPlugin }),
-      new UglifyJsPlugin({
-        parallel: true,
-        uglifyOptions: {
-          comments: false,
+      new webpack.DefinePlugin(assign(
+        { "process.env.NODE_ENV": JSON.stringify("production")},
+        overrides.DefinePlugin,
+      )),
+      new CleanWebpackPlugin(appDir, assign({ root: dirname, verbose: false }, overrides.CleanWebpackPlugin)),
+      new HtmlWebpackPlugin(assign({ title: "" }, overrides.HtmlWebpackPlugin)),
+      new UglifyJsPlugin(assign(
+        {
+          parallel: true,
+          uglifyOptions: {
+            comments: false,
+          },
         },
-        ...overrides.UglifyJsPlugin,
-      }),
+        overrides.UglifyJsPlugin,
+      )),
     ],
     module: {
       loaders: [

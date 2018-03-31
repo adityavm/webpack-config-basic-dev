@@ -5,7 +5,8 @@ const
   ExtractTextPlugin = require("extract-text-webpack-plugin"),
   StylelintWebpackPlugin = require("stylelint-webpack-plugin"),
   glob = require("glob"),
-  fs = require("fs");
+  fs = require("fs"),
+  assign = require("lodash.assign");
 
 const
   merge = require("webpack-merge");
@@ -69,9 +70,9 @@ module.exports = (dirname, overrides = {}) => {
       ],
     },
     plugins: [
-      new webpack.NamedModulesPlugin({ ...overrides.NamedModulesPlugin }),
-      new webpack.HotModuleReplacementPlugin({ title: "", ...overrides.HotModuleReplacementPlugin }),
-      new HtmlWebpackPlugin({ ...overrides.HtmlWebpackPlugin }),
+      new webpack.NamedModulesPlugin(assign({}, overrides.NamedModulesPlugin)),
+      new webpack.HotModuleReplacementPlugin(assign({ title: "" }, overrides.HotModuleReplacementPlugin)),
+      new HtmlWebpackPlugin(assign({}, overrides.HtmlWebpackPlugin)),
       ...plugins,
     ],
     module: {
