@@ -18,6 +18,7 @@ module.exports = (dirname, overrides = {}) => {
     webpackBase = require("./webpack.base.config")(dirname);
 
   return merge(webpackBase, {
+    mode: "production",
     plugins: [
       new webpack.DefinePlugin(assign(
         { "process.env.NODE_ENV": JSON.stringify("production")},
@@ -25,18 +26,9 @@ module.exports = (dirname, overrides = {}) => {
       )),
       new CleanWebpackPlugin(appDir, assign({ root: dirname, verbose: false }, overrides.CleanWebpackPlugin)),
       new HtmlWebpackPlugin(assign({ title: "" }, overrides.HtmlWebpackPlugin)),
-      new UglifyJsPlugin(assign(
-        {
-          parallel: true,
-          uglifyOptions: {
-            comments: false,
-          },
-        },
-        overrides.UglifyJsPlugin,
-      )),
     ],
     module: {
-      loaders: [
+      rules: [
         {
           test: /\.js$/,
           include: srcDir,

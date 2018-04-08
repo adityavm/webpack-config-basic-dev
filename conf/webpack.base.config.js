@@ -1,5 +1,4 @@
 const
-  webpack = require("webpack"),
   path = require("path"),
   HtmlWebpackPlugin = require("html-webpack-plugin"),
   ExtractTextPlugin = require("extract-text-webpack-plugin");
@@ -10,12 +9,7 @@ module.exports = dirname => {
     appDir = path.resolve(dirname, "dist");
 
   return {
-    entry: {
-      app: [
-        `${srcDir}/index.js`,
-      ],
-      vendor: ["react", "react-dom", "react-redux", "redux", "classnames"],
-    },
+    entry: `${srcDir}/index.js`,
     output: {
       path: appDir,
       filename: "js/[name].bundle.js",
@@ -32,7 +26,13 @@ module.exports = dirname => {
         filename: `css/bundle.css`,
         allChunks: true,
       }),
-      new webpack.optimize.CommonsChunkPlugin({ name: "vendor", filename: "js/vendor.bundle.js" }), // allow chunks
     ],
+    optimization: {
+      splitChunks: {
+        cacheGroups: {
+          commons: { test: /[\\/]node_modules[\\/]/, name: "vendor", chunks: "all" }
+        }
+      }
+    }
   };
 }

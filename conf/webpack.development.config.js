@@ -3,7 +3,6 @@ const
   path = require("path"),
   HtmlWebpackPlugin = require("html-webpack-plugin"),
   ExtractTextPlugin = require("extract-text-webpack-plugin"),
-  StylelintWebpackPlugin = require("stylelint-webpack-plugin"),
   glob = require("glob"),
   fs = require("fs"),
   assign = require("lodash.assign");
@@ -49,10 +48,15 @@ module.exports = (dirname, overrides = {}) => {
 
   // only run stylelint if there's a config
   if (haveStylelintConfig(dirname)) {
-    if (process.env.JEST_ENV) {
-      console.log("STYLELINTWEBPACKPLUGIN");
+    try {
+      const StylelintWebpackPlugin = require("stylelint-webpack-plugin");
+      if (process.env.JEST_ENV) {
+        console.log("STYLELINTWEBPACKPLUGIN");
+      }
+      plugins.push(new StylelintWebpackPlugin({ syntax: "scss" }));
+    } catch (e) {
+      throw new Error("MissingPlugin: Stylelint is missing but a Stylelint configuration was detected. Please install Stylelint or remove the configuration.")
     }
-    plugins.push(new StylelintWebpackPlugin({ syntax: "scss" }));
   }
 
   return merge({
@@ -62,21 +66,16 @@ module.exports = (dirname, overrides = {}) => {
         : undefined;
     },
   })(webpackBase, {
-    entry: {
-      app: [
-        "react-hot-loader/patch",
-        "webpack-dev-server/client?http://localhost:8008",
-        `${srcDir}/index.js`,
-      ],
-    },
+    mode: "development",
+    entry: `${srcDir}/index.js`,
     plugins: [
       new webpack.NamedModulesPlugin(assign({}, overrides.NamedModulesPlugin)),
       new webpack.HotModuleReplacementPlugin(assign({ title: "" }, overrides.HotModuleReplacementPlugin)),
-      new HtmlWebpackPlugin(assign({}, overrides.HtmlWebpackPlugin)),
+      new HtmlWebpackPlugin(assign({ title: "" }, overrides.HtmlWebpackPlugin)),
       ...plugins,
     ],
     module: {
-      loaders: [
+      rules: [
         {
           test: /\.js$/,
           include: srcDir,
