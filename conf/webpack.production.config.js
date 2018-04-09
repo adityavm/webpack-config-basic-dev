@@ -33,7 +33,7 @@ module.exports = (dirname, overrides = {}) => {
           test: /\.js$/,
           include: srcDir,
           exclude: [path.resolve(dirname, "node_modules")],
-          loader: "babel-loader",
+          use: "babel-loader",
           options: {
             compact: true,
           },
@@ -41,7 +41,7 @@ module.exports = (dirname, overrides = {}) => {
         {
           test: /\.(s[ac]ss|css)$/,
           include: srcDir,
-          loaders: ExtractTextPlugin.extract(["css-loader", "sass-loader"]),
+          use: [...ExtractTextPlugin.extract(["css-loader", "sass-loader"])],
         }, // css / sass
       ],
     },

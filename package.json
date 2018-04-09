@@ -19,7 +19,9 @@
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "html-webpack-plugin": "^3.2.0",
     "lodash.assign": "^4.2.0",
+    "stylelint": "^9.2.0",
     "stylelint-webpack-plugin": "^0.10.4",
+    "toposort": "1.0.4",
     "webpack": "^4.5.0",
     "webpack-merge": "^4.1.1"
   },

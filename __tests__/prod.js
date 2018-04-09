@@ -21,7 +21,6 @@ it("should have HMR and entry files in production env", () => {
   expect(prodConfig.entry.app).toEqual([
     `${dir}/src/index.js`
   ]);
-  expect(prodConfig.entry.vendor).toEqual(["react", "react-dom", "react-redux", "redux", "classnames"]);
 });
 
 it("should have only html webpack and HMR plugins in production env", () => {
@@ -34,13 +33,10 @@ it("should have only html webpack and HMR plugins in production env", () => {
   const HtmlWebpackPlugin = require("html-webpack-plugin");
   const CleanWebpackPlugin = require("clean-webpack-plugin");
   const StylelintWebpackPlugin = require("stylelint-webpack-plugin");
-  const UglifyJsWebpackPlugin = require("uglifyjs-webpack-plugin");
 
   expect(prodConfig.plugins).toContainEqual(expect.any(HtmlWebpackPlugin));
   expect(prodConfig.plugins).toContainEqual(expect.any(CleanWebpackPlugin));
-  expect(prodConfig.plugins).toContainEqual(expect.any(UglifyJsWebpackPlugin));
   expect(prodConfig.plugins).toContainEqual(expect.any(webpack.DefinePlugin));
-  expect(prodConfig.plugins).toContainEqual(expect.any(webpack.optimize.CommonsChunkPlugin));
   expect(prodConfig.plugins).not.toContainEqual(expect.any(webpack.NamedModulesPlugin));
   expect(prodConfig.plugins).not.toContainEqual(expect.any(webpack.HotModuleReplacementPlugin));
   expect(console.log).not.toHaveBeenCalledWith("STYLELINTWEBPACKPLUGIN");
@@ -61,32 +57,32 @@ it("should not have stylelint plugin in production env", () => {
   global.console.log.mockRestore();
 });
 
-it("should have correct loaders in production env", () => {
+it("should have correct rules in production env", () => {
   const config = require("../");
   const dir = path.resolve(__dirname, "dirWithPkgJson");
   const prodConfig = config(dir, "production");
   const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
-  expect(prodConfig.module.loaders).toContainEqual({
+  expect(prodConfig.module.rules).toContainEqual({
     test: /\.js$/,
     include: `${dir}/src`,
     exclude: [`${dir}/node_modules`],
-    loader: "babel-loader",
+    use: "babel-loader",
     options: {
       compact: true,
     },
   });
-  expect(prodConfig.module.loaders).toContainEqual({
+  expect(prodConfig.module.rules).toContainEqual({
     test: /\.(s[ac]ss|css)$/,
     include: `${dir}/src`,
-    loaders: ExtractTextPlugin.extract(["css-loader", "sass-loader"]),
+    use: [...ExtractTextPlugin.extract(["css-loader", "sass-loader"])],
   });
   // eslint
-  expect(prodConfig.module.loaders).not.toContainEqual({
+  expect(prodConfig.module.rules).not.toContainEqual({
     enforce: "pre",
     test: /\.js$/,
     include: `${dir}/src`,
-    loader: "eslint-loader",
+    use: "eslint-loader",
   });
 });
 
@@ -95,11 +91,11 @@ it("should not have eslint-loader in production env", () => {
   const dir = path.resolve(__dirname, "dirWithEslint");
   const prodConfig = config(dir, "production");
 
-  expect(prodConfig.module.loaders).not.toContainEqual({
+  expect(prodConfig.module.rules).not.toContainEqual({
     enforce: "pre",
     test: /\.js$/,
     include: `${dir}/src`,
-    loader: "eslint-loader",
+    use: "eslint-loader",
   });
 });
 

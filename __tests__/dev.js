@@ -18,15 +18,10 @@ it("should have HMR and entry files in development env", () => {
   const dir = path.resolve(__dirname, "dirWithPkgJson");
   const devConfig = config(dir, "development");
 
-  expect(devConfig.entry.app).toEqual([
-    `react-hot-loader/patch`,
-    `webpack-dev-server/client?http://localhost:8008`,
-    `${dir}/src/index.js`
-  ]);
-  expect(devConfig.entry.vendor).toEqual(["react", "react-dom", "react-redux", "redux", "classnames"]);
+  expect(devConfig.entry.app).toEqual([`${dir}/src/index.js`]);
 });
 
-it("should have only html webpack and HMR plugins in development env", () => {
+it("should have html webpack only in development env", () => {
   jest.spyOn(global.console, "log").mockImplementation(() => null);
 
   const config = require("../");
@@ -37,8 +32,6 @@ it("should have only html webpack and HMR plugins in development env", () => {
 
   expect(devConfig.plugins).toContainEqual(expect.any(HtmlWebpackPlugin));
   expect(devConfig.plugins).toContainEqual(expect.any(webpack.NamedModulesPlugin));
-  expect(devConfig.plugins).toContainEqual(expect.any(webpack.HotModuleReplacementPlugin));
-  expect(devConfig.plugins).toContainEqual(expect.any(webpack.optimize.CommonsChunkPlugin));
   expect(console.log).not.toHaveBeenCalledWith("STYLELINTWEBPACKPLUGIN");
 
   global.console.log.mockRestore();
@@ -57,29 +50,32 @@ it("should have stylelint plugin in development env", () => {
   global.console.log.mockRestore();
 });
 
-it("should have correct loaders in development env", () => {
+it("should have correct rules in development env", () => {
   const config = require("../");
   const dir = path.resolve(__dirname, "dirWithPkgJson");
   const devConfig = config(dir, "development");
   const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
-  expect(devConfig.module.loaders).toContainEqual({
+  expect(devConfig.module.rules).toContainEqual({
     test: /\.js$/,
     include: `${dir}/src`,
     exclude: [`${dir}/node_modules`],
-    loader: "babel-loader",
+    use: "babel-loader",
   });
-  expect(devConfig.module.loaders).toContainEqual({
+  expect(devConfig.module.rules).toContainEqual({
     test: /\.(s[ac]ss|css)$/,
     include: `${dir}/src`,
-    loaders: ["css-hot-loader"].concat(ExtractTextPlugin.extract(["css-loader", "sass-loader"])),
+    use: [
+      "css-hot-loader",
+      ...ExtractTextPlugin.extract(["css-loader", "sass-loader"]),
+    ],
   });
   // eslint
-  expect(devConfig.module.loaders).not.toContainEqual({
+  expect(devConfig.module.rules).not.toContainEqual({
     enforce: "pre",
     test: /\.js$/,
     include: `${dir}/src`,
-    loader: "eslint-loader",
+    use: "eslint-loader",
   });
 });
 
@@ -88,11 +84,11 @@ it("should have eslint-loader in development env", () => {
   const dir = path.resolve(__dirname, "dirWithEslint");
   const devConfig = config(dir, "development");
 
-  expect(devConfig.module.loaders).toContainEqual({
+  expect(devConfig.module.rules).toContainEqual({
     enforce: "pre",
     test: /\.js$/,
     include: `${dir}/src`,
-    loader: "eslint-loader",
+    use: "eslint-loader",
   });
 });
 

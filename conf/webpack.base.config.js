@@ -9,7 +9,9 @@ module.exports = dirname => {
     appDir = path.resolve(dirname, "dist");
 
   return {
-    entry: `${srcDir}/index.js`,
+    entry: {
+      app: [`${srcDir}/index.js`],
+    },
     output: {
       path: appDir,
       filename: "js/[name].bundle.js",

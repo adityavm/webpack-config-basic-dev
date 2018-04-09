@@ -3,6 +3,7 @@ const
   path = require("path"),
   HtmlWebpackPlugin = require("html-webpack-plugin"),
   ExtractTextPlugin = require("extract-text-webpack-plugin"),
+  StylelintWebpackPlugin = require("stylelint-webpack-plugin"),
   glob = require("glob"),
   fs = require("fs"),
   assign = require("lodash.assign");
@@ -33,29 +34,28 @@ module.exports = (dirname, overrides = {}) => {
     webpackBase = require("./webpack.base.config")(dirname);
 
   const
-    loaders = [],
+    rules = [],
     plugins = [];
 
   // only run eslint if there's a config
   if (haveEslintConfig(dirname)) {
-    loaders.push({
+    rules.push({
       enforce: "pre",
       test: /\.js$/,
       include: srcDir,
-      loader: "eslint-loader",
+      use: "eslint-loader",
     });
   }
 
   // only run stylelint if there's a config
   if (haveStylelintConfig(dirname)) {
     try {
-      const StylelintWebpackPlugin = require("stylelint-webpack-plugin");
       if (process.env.JEST_ENV) {
         console.log("STYLELINTWEBPACKPLUGIN");
       }
       plugins.push(new StylelintWebpackPlugin({ syntax: "scss" }));
     } catch (e) {
-      throw new Error("MissingPlugin: Stylelint is missing but a Stylelint configuration was detected. Please install Stylelint or remove the configuration.")
+      throw new Error(`MissingPlugin: Stylelint is missing but a Stylelint configuration was detected. Please install Stylelint or remove the configuration. (${e})`)
     }
   }
 
@@ -67,8 +67,11 @@ module.exports = (dirname, overrides = {}) => {
     },
   })(webpackBase, {
     mode: "development",
-    entry: `${srcDir}/index.js`,
+    entry: {
+      app: [`${srcDir}/index.js`],
+    },
     plugins: [
+      new webpack.LoaderOptionsPlugin({ options: {} }),
       new webpack.NamedModulesPlugin(assign({}, overrides.NamedModulesPlugin)),
       new webpack.HotModuleReplacementPlugin(assign({ title: "" }, overrides.HotModuleReplacementPlugin)),
       new HtmlWebpackPlugin(assign({ title: "" }, overrides.HtmlWebpackPlugin)),
@@ -80,14 +83,17 @@ module.exports = (dirname, overrides = {}) => {
           test: /\.js$/,
           include: srcDir,
           exclude: [path.resolve(dirname, "node_modules")],
-          loader: "babel-loader",
+          use: "babel-loader",
         }, // js
         {
           test: /\.(s[ac]ss|css)$/,
           include: srcDir,
-          loaders: ["css-hot-loader"].concat(ExtractTextPlugin.extract(["css-loader", "sass-loader"])),
+          use: [
+            "css-hot-loader",
+            ...ExtractTextPlugin.extract(["css-loader", "sass-loader"]),
+          ],
         }, // hmr styles
-        ...loaders,
+        ...rules,
       ]
     },
     devServer: {
