@@ -25,7 +25,7 @@ module.exports = (dirname, overrides = {}) => {
         overrides.DefinePlugin,
       )),
       new CleanWebpackPlugin(appDir, assign({ root: dirname, verbose: false }, overrides.CleanWebpackPlugin)),
-      new HtmlWebpackPlugin(assign({ title: "" }, overrides.HtmlWebpackPlugin)),
+      new HtmlWebpackPlugin(assign({ title: "", chunksSortMode: "none" }, overrides.HtmlWebpackPlugin)),
     ],
     module: {
       rules: [

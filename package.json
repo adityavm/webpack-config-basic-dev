@@ -28,8 +28,7 @@
     "jest": "^22.4.3"
   },
   "peerDependencies": {
-    "babel-loader": "^7.1.2",
-    "react-hot-loader": "^4.0.0"
+    "babel-loader": "^7.1.2"
   },
   "repository": {
     "type": "git",

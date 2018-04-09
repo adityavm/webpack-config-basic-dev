@@ -74,7 +74,7 @@ module.exports = (dirname, overrides = {}) => {
       new webpack.LoaderOptionsPlugin({ options: {} }),
       new webpack.NamedModulesPlugin(assign({}, overrides.NamedModulesPlugin)),
       new webpack.HotModuleReplacementPlugin(assign({ title: "" }, overrides.HotModuleReplacementPlugin)),
-      new HtmlWebpackPlugin(assign({ title: "" }, overrides.HtmlWebpackPlugin)),
+      new HtmlWebpackPlugin(assign({ title: "", chunksSortMode: "none" }, overrides.HtmlWebpackPlugin)),
       ...plugins,
     ],
     module: {
