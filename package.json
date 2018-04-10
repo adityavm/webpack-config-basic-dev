@@ -1,6 +1,6 @@
 {
   "name": "webpack-config-basic-dev",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Basic Webpack config with React, ESLint and HMR support",
   "main": "index.js",
   "scripts": {
