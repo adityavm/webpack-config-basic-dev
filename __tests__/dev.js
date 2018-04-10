@@ -109,13 +109,13 @@ it("should allow overriding config for plugins", () => {
   const config = require("../");
   const dir = path.resolve(__dirname, "dirWithEslint");
   const devConfig = config(dir, "development", {
-    NamedModulesPlugin: {
+    HtmlWebpackPlugin: {
       setting: "wxyz",
     }
   });
 
-  const webpack = require("webpack");
+  const HtmlWebpackPlugin = require("html-webpack-plugin");
 
-  const plugin = devConfig.plugins.find(plugin => plugin.constructor === webpack.NamedModulesPlugin);
+  const plugin = devConfig.plugins.find(plugin => plugin.constructor === HtmlWebpackPlugin);
   expect(plugin.options.setting).toBe("wxyz");
 });

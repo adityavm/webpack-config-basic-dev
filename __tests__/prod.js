@@ -67,10 +67,12 @@ it("should have correct rules in production env", () => {
     test: /\.js$/,
     include: `${dir}/src`,
     exclude: [`${dir}/node_modules`],
-    use: "babel-loader",
-    options: {
-      compact: true,
-    },
+    use: [{
+      loader: "babel-loader",
+      options: {
+        compact: true,
+      },
+    }]
   });
   expect(prodConfig.module.rules).toContainEqual({
     test: /\.(s[ac]ss|css)$/,
