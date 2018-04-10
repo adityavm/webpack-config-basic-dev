@@ -8,7 +8,7 @@ Basic Webpack config with React, SASS, HMR and optional ESLint and Stylelint sup
 ## Usage
 
 ```shell
-npm i webpack webpack-serve react react-dom babel-core babel-loader mini-css-extract-plugin style-loader css-loader sass-loader node-sass # dependencies
+npm i webpack webpack-serve react react-dom babel-core # dependencies
 npm i webpack-config-basic-dev
 ```
 **Note:** You will need the first line of dependencies to ultimately build successfully, but they are not required by this module and are listed here for convenience.
