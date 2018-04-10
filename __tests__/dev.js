@@ -31,7 +31,6 @@ it("should have html webpack only in development env", () => {
   const HtmlWebpackPlugin = require("html-webpack-plugin");
 
   expect(devConfig.plugins).toContainEqual(expect.any(HtmlWebpackPlugin));
-  expect(devConfig.plugins).toContainEqual(expect.any(webpack.NamedModulesPlugin));
   expect(console.log).not.toHaveBeenCalledWith("STYLELINTWEBPACKPLUGIN");
 
   global.console.log.mockRestore();

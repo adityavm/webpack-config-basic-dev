@@ -33,10 +33,12 @@ module.exports = (dirname, overrides = {}) => {
           test: /\.js$/,
           include: srcDir,
           exclude: [path.resolve(dirname, "node_modules")],
-          use: "babel-loader",
-          options: {
-            compact: true,
-          },
+          use: [{
+            loader: "babel-loader",
+            options: {
+              compact: true,
+            },
+          }]
         }, // js
         {
           test: /\.(s[ac]ss|css)$/,
