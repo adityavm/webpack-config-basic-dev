@@ -13,7 +13,7 @@ it("should fail if no environment provided", () => {
   expect(() => config()).toThrow();
 });
 
-it("should have HMR and entry files in development env", () => {
+it("should entry file in development env", () => {
   const config = require("../");
   const dir = path.resolve(__dirname, "dirWithPkgJson");
   const devConfig = config(dir, "development");
@@ -53,7 +53,6 @@ it("should have correct rules in development env", () => {
   const config = require("../");
   const dir = path.resolve(__dirname, "dirWithPkgJson");
   const devConfig = config(dir, "development");
-  const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
   expect(devConfig.module.rules).toContainEqual({
     test: /\.js$/,
@@ -65,8 +64,9 @@ it("should have correct rules in development env", () => {
     test: /\.(s[ac]ss|css)$/,
     include: `${dir}/src`,
     use: [
-      "css-hot-loader",
-      ...ExtractTextPlugin.extract(["css-loader", "sass-loader"]),
+      "style-loader",
+      "css-loader",
+      "sass-loader",
     ],
   });
   // eslint
@@ -75,6 +75,21 @@ it("should have correct rules in development env", () => {
     test: /\.js$/,
     include: `${dir}/src`,
     use: "eslint-loader",
+  });
+});
+
+it("should pass environment variables if provided", () => {
+  const config = require("../");
+  const dir = path.resolve(__dirname, "dirWithPkgJson");
+  const devConfig = config(dir, "development", { environmentVariables: { abcd: "efgh" } });
+
+  expect(devConfig.plugins[0].definitions).toEqual({
+    "process.env.ABCD": `"efgh"`,
+  });
+  expect(devConfig.module.rules).toContainEqual({
+    test: /\.(s[ac]ss|css)$/,
+    include: `${dir}/src`,
+    use: ["style-loader", "css-loader", { loader: "sass-loader", options: { data: `$ABCD:"efgh";` } }],
   });
 });
 

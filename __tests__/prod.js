@@ -13,7 +13,7 @@ it("should fail if no environment provided", () => {
   expect(() => config()).toThrow();
 });
 
-it("should have HMR and entry files in production env", () => {
+it("should entry file in production env", () => {
   const config = require("../");
   const dir = path.resolve(__dirname, "dirWithPkgJson");
   const prodConfig = config(dir, "production");
@@ -61,7 +61,7 @@ it("should have correct rules in production env", () => {
   const config = require("../");
   const dir = path.resolve(__dirname, "dirWithPkgJson");
   const prodConfig = config(dir, "production");
-  const ExtractTextPlugin = require("extract-text-webpack-plugin");
+  const MiniCssPlugin = require("mini-css-extract-plugin");
 
   expect(prodConfig.module.rules).toContainEqual({
     test: /\.js$/,
@@ -77,7 +77,7 @@ it("should have correct rules in production env", () => {
   expect(prodConfig.module.rules).toContainEqual({
     test: /\.(s[ac]ss|css)$/,
     include: `${dir}/src`,
-    use: [...ExtractTextPlugin.extract(["css-loader", "sass-loader"])],
+    use: [MiniCssPlugin.loader, "css-loader", "sass-loader"],
   });
   // eslint
   expect(prodConfig.module.rules).not.toContainEqual({
@@ -85,6 +85,23 @@ it("should have correct rules in production env", () => {
     test: /\.js$/,
     include: `${dir}/src`,
     use: "eslint-loader",
+  });
+});
+
+it("should pass environment variables if provided", () => {
+  const config = require("../");
+  const dir = path.resolve(__dirname, "dirWithPkgJson");
+  const prodConfig = config(dir, "production", { environmentVariables: { abcd: "efgh" } });
+  const MiniCssPlugin = require("mini-css-extract-plugin");
+
+  expect(prodConfig.plugins[0].definitions).toEqual({
+    "process.env.NODE_ENV": `"production"`,
+    "process.env.ABCD": `"efgh"`,
+  });
+  expect(prodConfig.module.rules).toContainEqual({
+    test: /\.(s[ac]ss|css)$/,
+    include: `${dir}/src`,
+    use: [MiniCssPlugin.loader, "css-loader", { loader: "sass-loader", options: { data: `$ABCD:"efgh";` } }],
   });
 });
 

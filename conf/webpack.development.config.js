@@ -2,7 +2,7 @@ const
   webpack = require("webpack"),
   path = require("path"),
   HtmlWebpackPlugin = require("html-webpack-plugin"),
-  ExtractTextPlugin = require("extract-text-webpack-plugin"),
+  MiniCssPlugin = require("mini-css-extract-plugin"),
   StylelintWebpackPlugin = require("stylelint-webpack-plugin"),
   glob = require("glob"),
   fs = require("fs"),
@@ -59,6 +59,19 @@ module.exports = (dirname, overrides = {}) => {
     }
   }
 
+  /*
+   * Transform environment variables for injection for JS and CSS
+   */
+  let envVars = {};
+  if (overrides.environmentVariables) {
+    const env = overrides.environmentVariables;
+    envVars = Object.keys(env).reduce((final, b) => {
+      final.js[`process.env.${b.toUpperCase()}`] = JSON.stringify(env[b]);
+      final.css = `${final.css}$${b.toUpperCase()}:"${env[b]}";`;
+      return final;
+    }, { js: {}, css: `` });
+  }
+
   return merge({
     customizeArray(a, b, key) {
       return key === "entry.app"
@@ -71,6 +84,7 @@ module.exports = (dirname, overrides = {}) => {
       app: [`${srcDir}/index.js`],
     },
     plugins: [
+      new webpack.DefinePlugin(envVars.js || {}), // define env vars
       new webpack.LoaderOptionsPlugin({ options: {} }),
       new HtmlWebpackPlugin(assign({ title: "", chunksSortMode: "none" }, overrides.HtmlWebpackPlugin)),
       ...plugins,
@@ -87,8 +101,9 @@ module.exports = (dirname, overrides = {}) => {
           test: /\.(s[ac]ss|css)$/,
           include: srcDir,
           use: [
-            "css-hot-loader",
-            ...ExtractTextPlugin.extract(["css-loader", "sass-loader"]),
+            "style-loader", // use workaround till webpack-contrib/mini-css-extract-plugin#34 is resolved
+            "css-loader",
+            envVars.css ? { loader: "sass-loader", options: { data: envVars.css } } : "sass-loader",
           ],
         }, // hmr styles
         ...rules,

@@ -8,7 +8,7 @@ Basic Webpack config with React, SASS, HMR and optional ESLint and Stylelint sup
 ## Usage
 
 ```shell
-npm i webpack webpack-dev-server react react-dom react-hot-loader babel-core babel-loader css-loader css-hot-loader sass-loader node-sass # dependencies
+npm i webpack webpack-serve react react-dom babel-core babel-loader mini-css-extract-plugin style-loader css-loader sass-loader node-sass # dependencies
 npm i webpack-config-basic-dev
 ```
 **Note:** You will need the first line of dependencies to ultimately build successfully, but they are not required by this module and are listed here for convenience.
@@ -46,6 +46,29 @@ AppRoot
   + dist        // build folder
   - package.json
   - ...
+```
+
+## Advanced
+
+The module accepts a third argument as option overrides for plugins. To override the options for a plugin, provide its name in camelcase as the key, and an object of options to override. Eg. to override options for the `html-webpack-plugin`:
+
+```javascript
+const overrides = {
+  HtmlWebpackPlugin: {
+    title: "MyApp",
+  },
+};
+const config = require("webpack-config-basic-dev")(__dirname, process.env.NODE_ENV, overrides);
+module.exports = config;
+```
+
+The override object also has accepts an object called `environmentVariables` which will be used to supply environment variables to both Javascript (through `webpack.DefinePlugin`) and Sass (through `sass-loader` options). Eg.
+
+```javascript
+const overrides = {
+  abcd: "efgh",
+};
+// Accessed as process.env.ABCD in Javascript and $ABCD in Sass
 ```
 
 # License

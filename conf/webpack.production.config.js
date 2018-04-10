@@ -2,7 +2,7 @@ const
   webpack = require("webpack"),
   path = require("path"),
   HtmlWebpackPlugin = require("html-webpack-plugin"),
-  ExtractTextPlugin = require("extract-text-webpack-plugin"),
+  MiniCssPlugin = require("mini-css-extract-plugin"),
   CleanWebpackPlugin = require("clean-webpack-plugin");
   UglifyJsPlugin = require("uglifyjs-webpack-plugin"),
   assign = require("lodash.assign");
@@ -17,15 +17,32 @@ module.exports = (dirname, overrides = {}) => {
     appDir = path.resolve(dirname, "dist"),
     webpackBase = require("./webpack.base.config")(dirname);
 
+  /*
+   * Transform environment variables for injection for JS and CSS
+   */
+  let envVars = {};
+  if (overrides.environmentVariables) {
+    const env = overrides.environmentVariables;
+    envVars = Object.keys(env).reduce((final, b) => {
+      final.js[`process.env.${b.toUpperCase()}`] = JSON.stringify(env[b]);
+      final.css = `${final.css}$${b.toUpperCase()}:"${env[b]}";`;
+      return final;
+    }, { js: {}, css: "" });
+  }
+
   return merge(webpackBase, {
     mode: "production",
     plugins: [
       new webpack.DefinePlugin(assign(
-        { "process.env.NODE_ENV": JSON.stringify("production")},
+        {
+          "process.env.NODE_ENV": JSON.stringify("production"),
+          ...(envVars.js || {}),
+        },
         overrides.DefinePlugin,
       )),
       new CleanWebpackPlugin(appDir, assign({ root: dirname, verbose: false }, overrides.CleanWebpackPlugin)),
       new HtmlWebpackPlugin(assign({ title: "", chunksSortMode: "none" }, overrides.HtmlWebpackPlugin)),
+      new MiniCssPlugin({ filename: "css/[name].css" }),
     ],
     module: {
       rules: [
@@ -43,7 +60,11 @@ module.exports = (dirname, overrides = {}) => {
         {
           test: /\.(s[ac]ss|css)$/,
           include: srcDir,
-          use: [...ExtractTextPlugin.extract(["css-loader", "sass-loader"])],
+          use: [
+            MiniCssPlugin.loader,
+            "css-loader",
+            envVars.css ? { loader: "sass-loader", options: { data: envVars.css } } : "sass-loader",
+          ],
         }, // css / sass
       ],
     },

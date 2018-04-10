@@ -1,7 +1,7 @@
 const
   path = require("path"),
   HtmlWebpackPlugin = require("html-webpack-plugin"),
-  ExtractTextPlugin = require("extract-text-webpack-plugin");
+  MiniCssPlugin = require("mini-css-extract-plugin");
 
 module.exports = dirname => {
   const
@@ -23,18 +23,14 @@ module.exports = dirname => {
       modules: [srcDir, "node_modules"],
     },
     devtool: "cheap-module-source-map",
-    plugins: [
-      new ExtractTextPlugin({
-        filename: `css/bundle.css`,
-        allChunks: true,
-      }),
-    ],
+    plugins: [],
     optimization: {
       splitChunks: {
         cacheGroups: {
-          commons: { test: /[\\/]node_modules[\\/]/, name: "vendor", chunks: "all" }
-        }
-      }
-    }
+          commons: { test: /[\\/]node_modules[\\/]/, name: "vendor", chunks: "all" },
+          styles: { test: /\.s[ac]ss$/, name: "style", chunks: "all", enforce: true },
+        },
+      },
+    },
   };
-}
+};
