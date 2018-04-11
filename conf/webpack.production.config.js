@@ -34,10 +34,8 @@ module.exports = (dirname, overrides = {}) => {
     mode: "production",
     plugins: [
       new webpack.DefinePlugin(assign(
-        {
-          "process.env.NODE_ENV": JSON.stringify("production"),
-          ...(envVars.js || {}),
-        },
+        { "process.env.NODE_ENV": JSON.stringify("production") },
+        envVars.js,
         overrides.DefinePlugin,
       )),
       new CleanWebpackPlugin(appDir, assign({ root: dirname, verbose: false }, overrides.CleanWebpackPlugin)),
