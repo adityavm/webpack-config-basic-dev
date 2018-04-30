@@ -40,7 +40,7 @@ module.exports = (dirname, overrides = {}) => {
       )),
       new CleanWebpackPlugin(appDir, assign({ root: dirname, verbose: false }, overrides.CleanWebpackPlugin)),
       new HtmlWebpackPlugin(assign({ title: "", chunksSortMode: "none" }, overrides.HtmlWebpackPlugin)),
-      new MiniCssPlugin({ filename: "css/[name].css" }),
+      new MiniCssPlugin(assign({ filename: "css/[name].css" }, overrides.MiniCssPlugin)),
     ],
     module: {
       rules: [
