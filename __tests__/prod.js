@@ -77,7 +77,11 @@ it("should have correct rules in production env", () => {
   expect(prodConfig.module.rules).toContainEqual({
     test: /\.(s[ac]ss|css)$/,
     include: `${dir}/src`,
-    use: [MiniCssPlugin.loader, "css-loader", "sass-loader"],
+    use: [
+      MiniCssPlugin.loader,
+      { loader: "css-loader", options: { minimize: true } },
+      "sass-loader",
+    ],
   });
   // eslint
   expect(prodConfig.module.rules).not.toContainEqual({
@@ -101,7 +105,11 @@ it("should pass environment variables if provided", () => {
   expect(prodConfig.module.rules).toContainEqual({
     test: /\.(s[ac]ss|css)$/,
     include: `${dir}/src`,
-    use: [MiniCssPlugin.loader, "css-loader", { loader: "sass-loader", options: { data: `$ABCD:"efgh";` } }],
+    use: [
+      MiniCssPlugin.loader,
+      { loader: "css-loader", options: { minimize: true } },
+      { loader: "sass-loader", options: { data: `$ABCD:"efgh";` } },
+    ],
   });
 });
 

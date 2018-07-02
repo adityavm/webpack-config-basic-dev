@@ -60,7 +60,7 @@ module.exports = (dirname, overrides = {}) => {
           include: srcDir,
           use: [
             MiniCssPlugin.loader,
-            "css-loader",
+            { loader: "css-loader", options: { minimize: true } },
             envVars.css ? { loader: "sass-loader", options: { data: envVars.css } } : "sass-loader",
           ],
         }, // css / sass
