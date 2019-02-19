@@ -33,7 +33,7 @@
     "jest": "^24.1.0"
   },
   "peerDependencies": {
-    "babel-loader": "^7.1.2"
+    "babel-loader": "^8.0.5"
   },
   "repository": {
     "type": "git",
