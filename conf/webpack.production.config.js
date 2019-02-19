@@ -4,7 +4,6 @@ const
   HtmlWebpackPlugin = require("html-webpack-plugin"),
   MiniCssPlugin = require("mini-css-extract-plugin"),
   CleanWebpackPlugin = require("clean-webpack-plugin");
-  UglifyJsPlugin = require("uglifyjs-webpack-plugin"),
   assign = require("lodash.assign");
 
 const
