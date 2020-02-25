@@ -79,7 +79,7 @@ it("should have correct rules in production env", () => {
     include: `${dir}/src`,
     use: [
       MiniCssPlugin.loader,
-      { loader: "css-loader", options: { minimize: true } },
+      "css-loader",
       "sass-loader",
     ],
   });
@@ -107,8 +107,8 @@ it("should pass environment variables if provided", () => {
     include: `${dir}/src`,
     use: [
       MiniCssPlugin.loader,
-      { loader: "css-loader", options: { minimize: true } },
-      { loader: "sass-loader", options: { data: `$ABCD:"efgh";` } },
+      "css-loader",
+      { loader: "sass-loader", options: { prependData: `$ABCD:"efgh";` } },
     ],
   });
 });

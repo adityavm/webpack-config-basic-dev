@@ -11,7 +11,7 @@ Object {
   "noInfo": true,
   "overlay": Object {
     "errors": true,
-    "warnings": true,
+    "warnings": false,
   },
   "port": 8008,
 }

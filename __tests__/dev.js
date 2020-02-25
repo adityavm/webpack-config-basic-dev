@@ -89,7 +89,7 @@ it("should pass environment variables if provided", () => {
   expect(devConfig.module.rules).toContainEqual({
     test: /\.(s[ac]ss|css)$/,
     include: `${dir}/src`,
-    use: ["style-loader", "css-loader", { loader: "sass-loader", options: { data: `$ABCD:"efgh";` } }],
+    use: ["style-loader", "css-loader", { loader: "sass-loader", options: { prependData: `$ABCD:"efgh";` } }],
   });
 });
 
