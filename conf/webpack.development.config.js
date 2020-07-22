@@ -103,7 +103,7 @@ module.exports = (dirname, overrides = {}) => {
           use: [
             "style-loader", // use workaround till webpack-contrib/mini-css-extract-plugin#34 is resolved
             "css-loader",
-            envVars.css ? { loader: "sass-loader", options: { prependData: envVars.css } } : "sass-loader",
+            envVars.css ? { loader: "sass-loader", options: { additionalData: envVars.css } } : "sass-loader",
           ],
         }, // hmr styles
         ...rules,
